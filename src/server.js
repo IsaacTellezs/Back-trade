@@ -20,7 +20,7 @@ app.use(cookieParser());
 
 // Middleware
 app.use(cors({
-  origin: 'https://trade-nationn.netlify.app/',
+  origin: 'https://trade-nationn.netlify.app',
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']
