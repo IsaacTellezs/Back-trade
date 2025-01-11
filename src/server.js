@@ -6,6 +6,7 @@ import UserRoutes from './routes/user.routes.js';
 import StripeRoutes from './routes/stripe.routes.js';
 import AuthRoutes from './routes/auth.routes.js'
 import WalletRoutes from './routes/wallet.routes.js';
+import TransactionsRoutes from './routes/transactions.routes.js';
 import morgan from 'morgan';
 import cookieParser from 'cookie-parser';
 
@@ -20,7 +21,7 @@ app.use(cookieParser());
 
 // Middleware
 app.use(cors({
-  origin: 'https://trade-nationn.netlify.app',
+  origin: 'https://www.trdnation.com',
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']
@@ -29,6 +30,7 @@ app.use(UserRoutes);
 app.use(StripeRoutes);
 app.use("/api",AuthRoutes);
 app.use("/api",WalletRoutes);
+app.use("/api",TransactionsRoutes);
 
 
 
