@@ -21,7 +21,8 @@ app.use(cookieParser());
 
 // Middleware
 app.use(cors({
-  origin: 'https://www.trdnation.com',
+  origin: ['https://trdnation.com', 'https://www.trdnation.com'],
+  // origin: 'http://localhost:5173',
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']

@@ -33,4 +33,23 @@ export const updateUser =  async(req, res) => {
     const {rows} = await pool.query('UPDATE users SET name =$1, email = $2  where id = $3 RETURNING *', [data.name, data.email, id])
     return res.json( rows[0])
 }
-    
+
+export const getUsersWallet = async (req, res) => {
+    try {
+        const query = `
+            SELECT 
+                u.id, 
+                u.name, 
+                u.email, 
+                COALESCE(SUM(w.balance), 0) AS total_wallet_amount
+            FROM users u
+            LEFT JOIN wallets w ON u.id = w.user_id
+            GROUP BY u.id;
+        `;
+        const { rows } = await pool.query(query);
+        res.json(rows);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al obtener los usuarios' });
+    }
+};
