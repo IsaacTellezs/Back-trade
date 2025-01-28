@@ -15,7 +15,6 @@ router.delete('/users/:id', deleteUser);
 router.put('/users/:id', updateUser );
 
 
-
 router.get('/wallets', getUsersWallet);
 
 export default router;

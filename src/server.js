@@ -9,6 +9,7 @@ import WalletRoutes from './routes/wallet.routes.js';
 import TransactionsRoutes from './routes/transactions.routes.js';
 import MarketRoutes from './routes/market.routes.js';
 import ProfileRoutes from './routes/dataProfile.routes.js';
+import FilesRoutes from './routes/files.routes.js';
 import morgan from 'morgan';
 import cookieParser from 'cookie-parser';
 
@@ -24,7 +25,7 @@ app.use(cookieParser());
 // Middleware
 app.use(cors({
   origin: ['https://trdnation.com', 'https://www.trdnation.com'],
-  // origin: 'http://localhost:5174',
+  // origin: 'http://localhost:5173',
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']
@@ -36,6 +37,7 @@ app.use("/api",WalletRoutes);
 app.use("/api",TransactionsRoutes);
 app.use("/api",MarketRoutes);
 app.use("/api",ProfileRoutes);
+app.use("/api",FilesRoutes);
 
 
 
