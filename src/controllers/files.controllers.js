@@ -43,9 +43,9 @@ export const listFiles = async (req, res) => {
         const filesWithUrls = await Promise.all(data.map(async (file) => {
             const { data: { signedUrl } } = await supabase.storage
                 .from("files")
-                .createSignedUrl(`user-files/${file.name}`, 3600); // 3600 segundos = 1 hora
+                .createSignedUrl(`user-files/${file.name}`, 3600); 
             
-            console.log(`Archivo: ${file.name}, URL firmada: ${signedUrl}`); // Log para depuración
+            // console.log(`Archivo: ${file.name}, URL firmada: ${signedUrl}`); // Log para depuración
             
             return {
                 name: file.name,
