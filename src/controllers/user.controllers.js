@@ -55,3 +55,24 @@ export const getUsersWallet = async (req, res) => {
 };
 
 
+export const updateWalletBalance = async (req, res) => {
+    const { id } = req.params;
+    const { balance } = req.body;
+
+    try {
+        const { rows } = await pool.query(
+            'UPDATE wallets SET balance = $1 WHERE user_id = $2 RETURNING *',
+            [balance, id]
+        );
+
+        if (rows.length === 0) {
+            return res.status(404).json({ message: "Wallet not found" });
+        }
+
+        res.json(rows[0]);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al actualizar el saldo de la wallet' });
+    }
+};
+

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { deleteUser, getUser, getUsers, getUsersWallet, updateUser } from "../controllers/user.controllers.js";
+import { deleteUser, getUser, getUsers, getUsersWallet, updateUser, updateWalletBalance } from "../controllers/user.controllers.js";
 
 const router = Router();
 
@@ -16,5 +16,7 @@ router.put('/users/:id', updateUser );
 
 
 router.get('/wallets', getUsersWallet);
+
+router.put('/wallets/:id', updateWalletBalance);
 
 export default router;
