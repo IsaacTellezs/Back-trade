@@ -6,7 +6,7 @@ export const DB_DATABASE = process.env.DB_DATABASE
 export const DB_PORT = process.env.DB_PORT
 
 export const ORIGIN_CORS = process.env.ORIGIN_CORS ? process.env.ORIGIN_CORS.split(',') : [];
-
+export const URL_FRONTEND = process.env.URL_FRONTEND
 //Tokens
 
 export const TOKEN_SECRET = process.env.TOKEN_SECRET
