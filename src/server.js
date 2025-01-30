@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import { PORT } from './config/config.js';
+import { ORIGIN_CORS, PORT } from './config/config.js';
 import UserRoutes from './routes/user.routes.js';
 import StripeRoutes from './routes/stripe.routes.js';
 import AuthRoutes from './routes/auth.routes.js'
@@ -24,12 +24,17 @@ app.use(cookieParser());
 
 // Middleware
 app.use(cors({
-  origin: ['https://trdnation.com', 'https://www.trdnation.com'],
-  // origin: 'http://localhost:5173',
+  origin: function (origin, callback) {
+    if (!origin || ORIGIN_CORS.includes(origin)) {
+      return callback(null, true);
+    }
+    return callback(new Error('Not allowed by CORS'));
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
+
 app.use(UserRoutes);
 app.use(StripeRoutes);
 app.use("/api",AuthRoutes);
