@@ -10,3 +10,6 @@ export const DB_PORT = process.env.DB_PORT
 export const TOKEN_SECRET = process.env.TOKEN_SECRET
 
 export  const PORT = process.env.PORT || 5000;
+
+export const SUPABASE_URL = process.env.SUPABASE_URL
+export const SUPABASE_KEY = process.env.SUPABASE_KEY

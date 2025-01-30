@@ -1,8 +1,9 @@
 import { createClient } from "@supabase/supabase-js";  
+import { SUPABASE_KEY, SUPABASE_URL } from "./config.js";
 
 
-const supabaseUrl = "https://pqyyjobayfpygizlqnzz.supabase.co"; // Reemplaza con la URL de tu proyecto
-const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBxeXlqb2JheWZweWdpemxxbnp6Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTczODA4MzAzMiwiZXhwIjoyMDUzNjU5MDMyfQ.z8Xlw_g6k6o2EM6OKLqD9Ccu-Xe2wrGwpRtwhTkFYac"; // Utiliza la clave de servicio encontrada en Settings > API
+const supabaseUrl = SUPABASE_URL; 
+const supabaseKey = SUPABASE_KEY; 
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
