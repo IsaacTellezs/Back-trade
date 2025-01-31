@@ -18,8 +18,8 @@ export const createUser = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(data.password_hash, 10);
     const { rows } = await pool.query(
-      "INSERT INTO users (name, email, password_hash) VALUES ($1 ,$2, $3) RETURNING *",
-      [data.name, data.email, hashedPassword]
+      "INSERT INTO users (name, email, password_hash, is_verified) VALUES ($1 ,$2, $3, $4) RETURNING *",
+      [data.name, data.email, hashedPassword, false]
     );
     const { id, name, email, created_at } = rows[0];
 
@@ -30,8 +30,8 @@ export const createUser = async (req, res) => {
 
     const wallet = walletRows[0];
 
-    const token = await createAccesToken({ id: id });
-    res.cookie("token", token);
+    // const token = await createAccesToken({ id: id });
+    // res.cookie("token", token);
     return res.status(201).json({ id, name, email, created_at });
   } catch (error) {
     console.error(error);
@@ -59,6 +59,10 @@ export const login = async (req, res) => {
     );
     if (!isMatch)
       return res.status(400).json({ message: "Incorrect password" });
+
+    if (!userFound.is_verified) {
+      return res.status(403).json({ message: "Tu cuenta no ha sido verificada" });
+    }
 
     const { id, name, email, created_at } = rows[0];
     const token = await createAccesToken({ id: userFound.id });

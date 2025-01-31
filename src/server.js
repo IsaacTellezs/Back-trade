@@ -10,6 +10,7 @@ import TransactionsRoutes from './routes/transactions.routes.js';
 import MarketRoutes from './routes/market.routes.js';
 import ProfileRoutes from './routes/dataProfile.routes.js';
 import FilesRoutes from './routes/files.routes.js';
+import AdminRoutes from './routes/admin.routes.js';
 import morgan from 'morgan';
 import cookieParser from 'cookie-parser';
 
@@ -43,6 +44,7 @@ app.use("/api",TransactionsRoutes);
 app.use("/api",MarketRoutes);
 app.use("/api",ProfileRoutes);
 app.use("/api",FilesRoutes);
+app.use("/api/admin",AdminRoutes);
 
 
 
