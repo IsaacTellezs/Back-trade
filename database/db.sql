@@ -3,7 +3,8 @@ CREATE TABLE users (
     name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    password_hash VARCHAR(255)
+    password_hash VARCHAR(255),
+    is_verified BOOLEAN DEFAULT FALSE;
 );
 
 CREATE TABLE wallets (
