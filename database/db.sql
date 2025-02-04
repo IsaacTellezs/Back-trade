@@ -27,5 +27,6 @@ CREATE TABLE user_profiles (
     city VARCHAR(100),
     postal_code VARCHAR(20),
     proof_of_address TEXT,
+    avatar_url TEXT,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
