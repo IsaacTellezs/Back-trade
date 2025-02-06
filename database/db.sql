@@ -3,7 +3,8 @@ CREATE TABLE users (
     name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    password_hash VARCHAR(255)
+    password_hash VARCHAR(255),
+    is_verified BOOLEAN DEFAULT FALSE
 );
 
 CREATE TABLE wallets (
@@ -26,5 +27,6 @@ CREATE TABLE user_profiles (
     city VARCHAR(100),
     postal_code VARCHAR(20),
     proof_of_address TEXT,
+    avatar_url TEXT,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
