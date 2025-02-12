@@ -169,9 +169,9 @@ export const resetPassword = async (req, res) => {
     const decoded = jwt.verify(token, TOKEN_SECRET);
     const { id } = decoded;
 
-    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    // const hashedPassword = await bcrypt.hash(newPassword, 10);
     await pool.query("UPDATE users SET password_hash = $1 WHERE id = $2", [
-      hashedPassword,
+      newPassword,
       id,
     ]);
 
