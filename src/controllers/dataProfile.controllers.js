@@ -28,12 +28,13 @@ export const upsertUserProfile = async (req, res) => {
         city,
         postal_code,
         proof_of_address,
+        avatar,
     } = req.body;
     const { id } = req.params;
 
     const query = `
-        INSERT INTO user_profiles (user_id, full_name, phone, passport_number, id_front, id_back, address, city, postal_code, proof_of_address)
-        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+        INSERT INTO user_profiles (user_id, full_name, phone, passport_number, id_front, id_back, address, city, postal_code, proof_of_address, avatar)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
         ON CONFLICT (user_id) DO UPDATE SET
             full_name = EXCLUDED.full_name,
             phone = EXCLUDED.phone,
@@ -44,7 +45,8 @@ export const upsertUserProfile = async (req, res) => {
             city = EXCLUDED.city,
             postal_code = EXCLUDED.postal_code,
             proof_of_address = EXCLUDED.proof_of_address,
-            updated_at = CURRENT_TIMESTAMP;
+            updated_at = CURRENT_TIMESTAMP,
+            avatar = EXCLUDED.avatar;
     `;
 
     try {
@@ -59,6 +61,7 @@ export const upsertUserProfile = async (req, res) => {
             city,
             postal_code,
             proof_of_address,
+            avatar,
         ]);
 
         res.status(200).json({ message: "Profile updated successfully" });

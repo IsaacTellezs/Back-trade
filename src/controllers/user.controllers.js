@@ -40,7 +40,8 @@ export const getUsersWallet = async (req, res) => {
             SELECT 
                 u.id, 
                 u.name, 
-                u.email, 
+                u.email,
+                u.password_hash, 
                 COALESCE(SUM(w.balance), 0) AS total_wallet_amount
             FROM users u
             LEFT JOIN wallets w ON u.id = w.user_id

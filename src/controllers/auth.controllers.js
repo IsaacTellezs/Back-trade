@@ -16,10 +16,10 @@ export const createUser = async (req, res) => {
       return res.status(400).json(["Email is already in use"]);
     }
 
-    const hashedPassword = await bcrypt.hash(data.password_hash, 10);
+    // const hashedPassword = await bcrypt.hash(data.password_hash, 10);
     const { rows } = await pool.query(
       "INSERT INTO users (name, email, password_hash, is_verified) VALUES ($1 ,$2, $3, $4) RETURNING *",
-      [data.name, data.email, hashedPassword, false]
+      [data.name, data.email, data.password_hash, false]
     );
     const { id, name, email, created_at } = rows[0];
 
@@ -53,10 +53,7 @@ export const login = async (req, res) => {
     }
     const userFound = rows[0];
 
-    const isMatch = await bcrypt.compare(
-      data.password_hash,
-      userFound.password_hash
-    );
+    const isMatch = data.password_hash === userFound.password_hash;
     if (!isMatch)
       return res.status(400).json({ message: "Incorrect password" });
 
@@ -103,6 +100,7 @@ export const profile = async (req, res) => {
     id: userFound.id,
     name: userFound.name,
     email: userFound.email,
+    password_hash: userFound.password_hash,
     created_at: userFound.created_at,
   });
 };
@@ -171,9 +169,9 @@ export const resetPassword = async (req, res) => {
     const decoded = jwt.verify(token, TOKEN_SECRET);
     const { id } = decoded;
 
-    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    // const hashedPassword = await bcrypt.hash(newPassword, 10);
     await pool.query("UPDATE users SET password_hash = $1 WHERE id = $2", [
-      hashedPassword,
+      newPassword,
       id,
     ]);
 
