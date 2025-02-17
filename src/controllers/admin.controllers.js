@@ -1,6 +1,12 @@
 import { pool } from "../models/db.js";
 
 
+export const getUsersAdmin = async (req,res) => {
+    const {rows} = await pool.query("SELECT * FROM users");   
+    res.json(rows);
+
+}
+
 export const getUnverifiedUsers = async (req, res) => {
   try {
     const { rows } = await pool.query(
