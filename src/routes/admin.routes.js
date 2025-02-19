@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { authRequired } from "../middlewares/validateToken.js";
-import { getUnverifiedUsers, getUsersAdmin, verifyUser } from "../controllers/admin.controllers.js";
+import { createActivity, deleteActivity, getActivity, getUnverifiedUsers, getUsersAdmin, updateActivity, verifyUser } from "../controllers/admin.controllers.js";
 
 
 const router = Router();
@@ -13,5 +13,12 @@ router.get("/unverified-users", getUnverifiedUsers);
 // Verificar un usuario
 router.post("/verify-user/:userId", verifyUser);
 
+router.post("/activity", createActivity);
+
+router.get("/account-activity/:userId", getActivity);
+
+router.put("/activity/:activityId", updateActivity);
+
+router.delete("/activity/:activityId", deleteActivity);
 
 export default router;

@@ -30,3 +30,16 @@ CREATE TABLE user_profiles (
     avatar_url TEXT,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE account_activity (
+    id SERIAL PRIMARY KEY,
+    user_id INT NOT NULL,
+    date DATE NOT NULL,
+    code VARCHAR(20) NOT NULL,
+    description TEXT,
+    ticket VARCHAR(50),
+    withdrawals DECIMAL(15,2) DEFAULT 0,
+    deposits DECIMAL(15,2) DEFAULT 0,
+    balance DECIMAL(15,2) NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
