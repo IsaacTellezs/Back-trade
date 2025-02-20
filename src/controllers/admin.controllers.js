@@ -99,12 +99,8 @@ export const getActivity = async (req, res) => {
           "SELECT * FROM account_activity WHERE user_id = $1 ORDER BY id ASC",
           [userId]
       );
-
-      if (rows.length === 0) {
-          return res.status(404).json({ message: "No hay actividad reciente" });
-      }
-
       res.status(200).json(rows);
+      
   } catch (error) {
       console.error(error);
       res.status(500).json({ message: "Error al obtener la actividad reciente" });
