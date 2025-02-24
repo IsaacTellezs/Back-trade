@@ -58,12 +58,19 @@ export const login = async (req, res) => {
       return res.status(400).json({ message: "Incorrect password" });
 
     if (!userFound.is_verified) {
-      return res.status(403).json({ message: "Tu cuenta no ha sido verificada" });
+      return res
+        .status(403)
+        .json({ message: "Tu cuenta no ha sido verificada" });
     }
 
     const { id, name, email, created_at } = rows[0];
     const token = await createAccesToken({ id: userFound.id });
-    res.cookie("token", token);
+    res.cookie("token", token, {
+      httpOnly: true, // La cookie no es accesible desde JavaScript
+      secure: process.env.NODE_ENV === "production", // Solo enviar cookies sobre HTTPS en producción
+      sameSite: "none", // Permite cookies en solicitudes de dominios cruzados
+      maxAge: 24 * 60 * 60 * 1000, // 1 día
+    });
     return res.status(201).json({
       id: userFound.id,
       name: userFound.name,
@@ -164,7 +171,7 @@ export const forgotPassword = async (req, res) => {
 
 export const resetPassword = async (req, res) => {
   const { token, newPassword } = req.body;
-//   console.log("Token:", token); // Depuración
+  //   console.log("Token:", token); // Depuración
   try {
     const decoded = jwt.verify(token, TOKEN_SECRET);
     const { id } = decoded;
