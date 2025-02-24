@@ -76,6 +76,7 @@ export const login = async (req, res) => {
       name: userFound.name,
       email: userFound.email,
       created_at: userFound.created_at,
+      token: token,
     });
   } catch (error) {
     console.error(error);
@@ -113,28 +114,34 @@ export const profile = async (req, res) => {
 };
 
 export const verifyToken = async (req, res) => {
-  const { token } = req.cookies;
+  const token = req.headers.authorization?.split(" ")[1]; // Recupera el token del encabezado
 
-  if (!token) return restart.status(401).json({ message: "unauthorized" });
+  console.log("Token recibido en verifyToken:", token); // Log para depuración
+
+  if (!token) {
+      return res.status(401).json({ message: "No token, authorization denied" });
+  }
 
   jwt.verify(token, TOKEN_SECRET, async (err, user) => {
-    if (err) return res.status(401).json({ message: "unauthorized" });
+      if (err) {
+          return res.status(403).json({ message: "Invalid token" });
+      }
 
-    const { rows } = await pool.query("SELECT * FROM users WHERE id = $1", [
-      user.id,
-    ]);
+      const { rows } = await pool.query("SELECT * FROM users WHERE id = $1", [
+          user.id,
+      ]);
 
-    if (rows.length === 0) {
-      return res.status(404).json({ message: "unauthorized" });
-    }
-    const userFound = rows[0];
+      if (rows.length === 0) {
+          return res.status(404).json({ message: "User not found" });
+      }
+      const userFound = rows[0];
 
-    return res.json({
-      id: userFound.id,
-      name: userFound.name,
-      email: userFound.email,
-      created_at: userFound.created_at,
-    });
+      return res.json({
+          id: userFound.id,
+          name: userFound.name,
+          email: userFound.email,
+          created_at: userFound.created_at,
+      });
   });
 };
 
