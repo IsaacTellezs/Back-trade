@@ -64,6 +64,13 @@ export const login = async (req, res) => {
     const { id, name, email, created_at } = rows[0];
     const token = await createAccesToken({ id: userFound.id });
     res.cookie("token", token);
+    res.cookie("token", token, {
+      httpOnly: true, // La cookie no es accesible desde JavaScript
+      secure: process.env.NODE_ENV === "production", // Solo enviar cookies sobre HTTPS en producción
+      sameSite: "lax", // Controla cómo se envía la cookie en solicitudes de terceros
+      domain: "www.trdnation.com",
+      maxAge: 24 * 60 * 60 * 1000, // La cookie expira en 1 día
+  });
     return res.status(201).json({
       id: userFound.id,
       name: userFound.name,
