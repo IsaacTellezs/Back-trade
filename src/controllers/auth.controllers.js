@@ -63,12 +63,7 @@ export const login = async (req, res) => {
 
     const { id, name, email, created_at } = rows[0];
     const token = await createAccesToken({ id: userFound.id });
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production", 
-      sameSite: "none", 
-      maxAge: 24 * 60 * 60 * 1000, 
-  });
+    res.cookie("token", token);
     return res.status(201).json({
       id: userFound.id,
       name: userFound.name,
