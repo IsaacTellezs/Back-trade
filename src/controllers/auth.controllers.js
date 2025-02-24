@@ -68,7 +68,7 @@ export const login = async (req, res) => {
       httpOnly: true, // La cookie no es accesible desde JavaScript
       secure: process.env.NODE_ENV === "production", // Solo enviar cookies sobre HTTPS en producción
       sameSite: "lax", // Controla cómo se envía la cookie en solicitudes de terceros
-      domain: "www.trdnation.com",
+      domain: ".trdnation.com",
       maxAge: 24 * 60 * 60 * 1000, // La cookie expira en 1 día
   });
     return res.status(201).json({
