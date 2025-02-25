@@ -116,7 +116,7 @@ export const profile = async (req, res) => {
 export const verifyToken = async (req, res) => {
   const token = req.headers.authorization?.split(" ")[1]; // Recupera el token del encabezado
 
-  console.log("Token recibido en verifyToken:", token); // Log para depuración
+  // console.log("Token recibido en verifyToken:", token); // Log para depuración
 
   if (!token) {
       return res.status(401).json({ message: "No token, authorization denied" });
