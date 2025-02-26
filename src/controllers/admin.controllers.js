@@ -26,6 +26,24 @@ export const getUnverifiedUsers = async (req, res) => {
   }
 };
 
+export const getVerifiedUsers = async (req, res) => {
+  try {
+    const { rows } = await pool.query(
+      "SELECT id, name, email, created_at FROM users WHERE is_verified = true"
+    );
+
+    if (rows.length === 0) {
+      return res.status(404).json({ message: "No hay usuarios verificados" });
+    }
+
+   
+    res.status(200).json(rows);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error al obtener usuarios verificados" });
+  }
+};
+
 export const verifyUser = async (req, res) => {
   try {
     const { userId } = req.params;
@@ -45,6 +63,28 @@ export const verifyUser = async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Error al verificar el usuario" });
+  }
+};
+
+export const unverifyUser = async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    // Verificar si el usuario existe
+    const { rows } = await pool.query(
+      "UPDATE users SET is_verified = false WHERE id = $1 RETURNING *",
+      [userId]
+    );
+
+    if (rows.length === 0) {
+      return res.status(404).json({ message: "Usuario no encontrado" });
+    }
+
+    // Enviar la respuesta con el usuario verificado
+    res.status(200).json({ message: "Removiendo verificación exitosamente", user: rows[0] });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error al quitar verificación el usuario" });
   }
 };
 
